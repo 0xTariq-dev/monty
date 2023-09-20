@@ -37,7 +37,6 @@ int main(int argc, char *argv[])
 	if (m_code == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-		goto cleanup;
 		exit(EXIT_FAILURE);
 	}
 	/*head = malloc(sizeof(stack_t));
@@ -88,7 +87,6 @@ int main(int argc, char *argv[])
             	tkn_count = 0;
 		free(rest);
 	}
-cleanup:
 	free(line);
 	fclose(m_code);
 	exit(EXIT_SUCCESS);
