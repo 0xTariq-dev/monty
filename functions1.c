@@ -1,29 +1,5 @@
 #include "monty.h"
 
-int data;
-
-/**
- * new_element - Add new element to the stack.
- * @element: The data.
- *
- * Return: The new element.
- */
-stack_t *new_element(int element)
-{
-	stack_t *new = malloc(sizeof(stack_t));
-
-	if (new == NULL)
-	{
-		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-	new->n = element;
-	new->next = NULL;
-	new->prev = NULL;
-
-	return (new);
-}
-
 /**
  * push - Add element to the stack.
  * @head: A pointer to the list.
@@ -31,6 +7,7 @@ stack_t *new_element(int element)
  *
  * Return: The Address of the new element
  */
+int data;
 void push(stack_t **stack, unsigned int n)
 {
         stack_t *new;
@@ -63,4 +40,26 @@ void pall(stack_t **stack, unsigned int n)
 		fprintf(stdout, "%d\n", current->n);
 		current = current->next;
 	}
+}
+
+/**
+ * new_element - Add new element to the stack.
+ * @element: The data.
+ *
+ * Return: The new element.
+ */
+stack_t *new_element(int element)
+{
+	stack_t *new = malloc(sizeof(stack_t));
+
+	if (new == NULL)
+	{
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
+	new->n = element;
+	new->next = NULL;
+	new->prev = NULL;
+
+	return (new);
 }

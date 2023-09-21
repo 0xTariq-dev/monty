@@ -22,7 +22,7 @@ void err_push(FILE *mon, char *line, stack_t *stack, int count)
  * @line: Instructions buffer.
  * @stack: Data structure (stack or queue).
  * @count: line number.
- * element: number.
+ * @element: number.
  */
 void inv_inst(FILE *mon, char *line, stack_t *stack, char *count, int element)
 {

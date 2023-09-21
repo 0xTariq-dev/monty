@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	exit(EXIT_SUCCESS);
+	return (0);
 }
 
 /**
@@ -35,18 +35,13 @@ int main(int argc, char *argv[])
  */
 void file_handler(char *argv)
 {
-	int count = 0, res = 0;
+	unsigned int count = 0, res = 0;
 	char *arguments = NULL, *element = NULL, *delims = " \t\r\n";
 	stack_t *stack = NULL;
 	size_t len = 0;
 
 	global.m_code = fopen(argv, "r");
-	if (!global.m_code)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv);
-		exit(EXIT_FAILURE);
-	}
-	else
+	if (global.m_code)
 	{
 		while (getline(&global.line, &len, global.m_code) != -1)
 		{
@@ -60,7 +55,7 @@ void file_handler(char *argv)
 			else if (*arguments == '#')
 				continue;
 			element = strtok(NULL, delims);
-			res = exec_op(&stack, argv, element, count);
+			res = exec_op(&stack, arguments, element, count);
 			if (res == 1)
 				err_push(global.m_code, global.line, stack, count);
 			else if (res == 2)
@@ -69,6 +64,11 @@ void file_handler(char *argv)
 			free_stack(stack);
 			fclose(global.m_code);
 		}
+	}
+	else
+	{
+		fprintf(stderr, "Error: Can't open file %s\n", argv);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -79,7 +79,7 @@ void file_handler(char *argv)
  * @element: An element.
  * @n: Line number.
  */
-int exec_op(stack_t **stack, char *argument, char *element, int n)
+int exec_op(stack_t **stack, char *argument, char *element, unsigned int n)
 {
 	int x = 0;
 	instruction_t op[] = {
@@ -92,19 +92,21 @@ int exec_op(stack_t **stack, char *argument, char *element, int n)
 		{
 			if (!strcmp(argument, "push"))
 			{
-				if (isdigit(element) == 1)
+				if (isdigit(element))
 					data = atoi(element);
 				else
-					exit(1);
+				{
+					printf("%s", element);
+					return (1);
+				}
 			}
-			op[x].f(stack, (unsigned int)n);
+			op[x].f(stack, n);
 			break;
 		}
 		x++;
 	}
 	if (!op[x].opcode)
-		exit(2);
+		return (2);
 
-	exit(0);
+	return (0);
 }
-				

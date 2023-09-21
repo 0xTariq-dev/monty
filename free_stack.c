@@ -1,8 +1,8 @@
 #include "monty.h"
 
 /**
- * free_dlistint - Frees a list.
- * @head: A pointer to the list.
+ * free_stack - Frees a stack.
+ * @stack: A pointer to the list.
  *
  * Return: Nothing.
  */

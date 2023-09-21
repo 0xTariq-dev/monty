@@ -63,8 +63,8 @@ extern int data;
 stack_t *new_element(int element);
 
 /*operations*/
-int exec_op(stack_t **stack, char *argument, char *element, int n);
-void push(stack_t **head, unsigned int n);
+int exec_op(stack_t **stack, char *argument, char *element, unsigned int n);
+void push(stack_t **stack, unsigned int n);
 void pall(stack_t **stack, unsigned int n);
 void free_stack(stack_t *stack);
 
