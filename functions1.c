@@ -2,21 +2,20 @@
 
 /**
  * push - Add element to the stack.
- * @head: A pointer to the list.
+ * @stack: A pointer to the list.
  * @n: The value to add to the list.
  *
  * Return: The Address of the new element
  */
-int data;
 void push(stack_t **stack, unsigned int n)
 {
-        stack_t *new;
-        (void)n;
+	stack_t *new;
+	(void)n;
 
 	new = new_element(data);
-        new->next = *stack;
+	new->next = *stack;
 
-        if (*stack != NULL)
+	if (*stack != NULL)
 		(*stack)->prev = new;
 	*stack = new;
 }
