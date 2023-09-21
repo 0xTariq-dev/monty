@@ -66,6 +66,7 @@ stack_t *new_element(int element);
 int exec_op(stack_t **stack, char *argument, char *element, int n);
 void push(stack_t **stack, unsigned int n);
 void pall(stack_t **stack, unsigned int n);
+void pop(stack_t **stack, unsigned int n);
 void free_stack(stack_t *stack);
 
 /*Error Handling*/
