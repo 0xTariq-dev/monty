@@ -1,6 +1,7 @@
 #ifndef MONTY_H
 #define MONTY_H
 
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -23,9 +24,9 @@
  */
 typedef struct stack_s
 {
-        int n;
-        struct stack_s *prev;
-        struct stack_s *next;
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
 } stack_t;
 
 /**
@@ -38,16 +39,16 @@ typedef struct stack_s
  */
 typedef struct instruction_s
 {
-        char *opcode;
-        void (*f)(stack_t **stack, unsigned int line_number);
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
 /**
- * struct glob_s - global file and it's functions
- * @m_code: Monty instructions file.
- * @line: line to execute.
+ * struct global_s - hold line info
+ * @m_code: pointer to file
+ * @line: the line read
  *
- * Descrebtion: Handle the file and it's lines instructions.
+ * Description: hold info about file
  */
 typedef struct global_s
 {
@@ -55,7 +56,6 @@ typedef struct global_s
 	char *line;
 } glob_t;
 
-extern glob_t global;
 extern int data;
 
 /*Functions Used*/
@@ -63,7 +63,7 @@ extern int data;
 stack_t *new_element(int element);
 
 /*operations*/
-int exec_op(stack_t **stack, char *argument, char *element, unsigned int n);
+int exec_op(stack_t **stack, char *argument, char *element, int n);
 void push(stack_t **stack, unsigned int n);
 void pall(stack_t **stack, unsigned int n);
 void free_stack(stack_t *stack);
@@ -73,6 +73,6 @@ void err_push(FILE *mon, char *line, stack_t *stack, int count);
 void inv_inst(FILE *mon, char *line, stack_t *stack, char *count, int element);
 
 /*File Operations*/
-void file_handler(char *arg);
+void file_handler(char *argv);
 
 #endif
