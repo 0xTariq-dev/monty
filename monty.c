@@ -1,9 +1,6 @@
-/*
- * Author: 0xTariq-dev, HeshamOrabi
- * File: monty.c
- */
-
 #include "monty.h"
+
+glob_t global = {NULL, NULL};
 
 /**
  * main - Monty interpreter main function that get instructions from monty
@@ -20,74 +17,94 @@
  */
 int main(int argc, char *argv[])
 {
-	FILE *m_code = fopen(argv[1], "r");
-	/*stack_t *head;*/
-	/*instruction_t *cmd;*/
-	int tkn_count = 0;
-	char *token, *line = NULL, *rest, *data = NULL, *command, *next_token;
-	ssize_t read;
-	size_t len = 0;
-
-
-	if (argc != 2)
+	if (argc == 2)
+		file_handler(argv[1]);
+	else
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	if (m_code == NULL)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-		exit(EXIT_FAILURE);
-	}
-	/*head = malloc(sizeof(stack_t));
-	if (head == NULL)
-	{
-		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}*/
-
-	while ((read = getline(&line, &len, m_code)) != -1)
-	{
-		rest = malloc(strlen(line) + 1);
-		strcpy(rest, line);
-		token = strtok_r(rest, " \n", &next_token);
-            	tkn_count += 1;
-		if (tkn_count == 1)
-		{
-			/*cmd = malloc(sizeof(instruction_t));
-			if (cmd == NULL)
-			{
-   				fprintf(stderr, "Error: malloc failed\n");
-		    		exit(EXIT_FAILURE);
-			}*/
-			command = malloc(strlen(token) + 1);
-			strcpy(command, token);
-			printf("commad: %s ", command);
-		}
-		token = strtok_r(next_token, " \n", &next_token);
-		if (token != NULL)
-		{
-            		tkn_count += 1;
-			if (tkn_count == 2)
-			{
-				data = malloc(strlen(token) + 1);
-				strcpy(data, token);
-				printf("data: %s\n", data);
-			}
-		}
-		/*free(cmd->opcode);
-		free(cmd);
-		cmd = NULL;*/
-		if (tkn_count == 2)
-		{
-			free(data);
-			free(command);
-			data = NULL;
-		}
-            	tkn_count = 0;
-		free(rest);
-	}
-	free(line);
-	fclose(m_code);
 	exit(EXIT_SUCCESS);
 }
+
+/**
+ * file_handler - Read the file and get the instructions.
+ * @args: Arguments passed.
+ *
+ * Return: Nothing.
+ */
+void file_handler(char *argv)
+{
+	int count = 0, res = 0;
+	char *arguments = NULL, *element = NULL, *delims = " \t\r\n";
+	stack_t *stack = NULL;
+	size_t len = 0;
+
+	global.m_code = fopen(argv, "r");
+	if (!global.m_code)
+	{
+		fprintf(stderr, "Error: Can't open file %s\n", argv);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		while (getline(&global.line, &len, global.m_code) != -1)
+		{
+			count++;
+			arguments = strtok(global.line, delims);
+			if (arguments == NULL)
+			{
+				free(arguments);
+				continue;
+			}
+			else if (*arguments == '#')
+				continue;
+			element = strtok(NULL, delims);
+			res = exec_op(&stack, argv, element, count);
+			if (res == 1)
+				err_push(global.m_code, global.line, stack, count);
+			else if (res == 2)
+				inv_inst(global.m_code, global.line, stack, argv, count);
+			free(global.line);
+			free_stack(stack);
+			fclose(global.m_code);
+		}
+	}
+}
+
+/**
+ * exec_op - Execute operation on a stack.
+ * @stack: The stack.
+ * @argument: The operation name.
+ * @element: An element.
+ * @n: Line number.
+ */
+int exec_op(stack_t **stack, char *argument, char *element, int n)
+{
+	int x = 0;
+	instruction_t op[] = {
+		{"push", push}, {"pall", pall}, {NULL, NULL}
+	};
+
+	while (op[x].opcode)
+	{
+		if (!strcmp(argument, op[x].opcode))
+		{
+			if (!strcmp(argument, "push"))
+			{
+				if (isdigit(element) == 1)
+					data = atoi(element);
+				else
+					exit(1);
+			}
+			op[x].f(stack, (unsigned int)n);
+			break;
+		}
+		x++;
+	}
+	if (!op[x].opcode)
+		exit(2);
+
+	exit(0);
+}
+				
