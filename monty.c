@@ -1,7 +1,6 @@
 #include "monty.h"
 
-glob_t global = {NULL, NULL};
-
+int data = 0;
 /**
  * main - Monty interpreter main function that get instructions from monty
  *		pytecode file and excute it on a stack.
@@ -29,16 +28,18 @@ int main(int argc, char *argv[])
 
 /**
  * file_handler - Read the file and get the instructions.
- * @args: Arguments passed.
+ * @argv: Arguments passed.
  *
  * Return: Nothing.
  */
 void file_handler(char *argv)
 {
-	unsigned int count = 0, res = 0;
-	char *arguments = NULL, *element = NULL, *delims = " \t\r\n";
+	int count = 0, res = 0;
+	char *arguments = NULL, *element = NULL;
+	char delims[] = {' ', '\t', '\n'};
 	stack_t *stack = NULL;
 	size_t len = 0;
+	glob_t global = {NULL, NULL};
 
 	global.m_code = fopen(argv, "r");
 	if (global.m_code)
@@ -47,23 +48,18 @@ void file_handler(char *argv)
 		{
 			count++;
 			arguments = strtok(global.line, delims);
-			if (arguments == NULL)
-			{
-				free(arguments);
-				continue;
-			}
-			else if (*arguments == '#')
+			if (arguments == NULL || *arguments == '#')
 				continue;
 			element = strtok(NULL, delims);
 			res = exec_op(&stack, arguments, element, count);
 			if (res == 1)
-				err_push(global.m_code, global.line, stack, count);
-			else if (res == 2)
 				inv_inst(global.m_code, global.line, stack, argv, count);
-			free(global.line);
-			free_stack(stack);
-			fclose(global.m_code);
+			if (res == 2)
+				err_push(global.m_code, global.line, stack, count);
 		}
+		fclose(global.m_code);
+		free(global.line);
+		free_stack(stack);
 	}
 	else
 	{
@@ -71,15 +67,16 @@ void file_handler(char *argv)
 		exit(EXIT_FAILURE);
 	}
 }
-
 /**
  * exec_op - Execute operation on a stack.
  * @stack: The stack.
  * @argument: The operation name.
  * @element: An element.
- * @n: Line number.
+ * @n: Line number
+ *
+ * Return: 0 on sucess, 1 if not.
  */
-int exec_op(stack_t **stack, char *argument, char *element, unsigned int n)
+int exec_op(stack_t **stack, char *argument, char *element, int n)
 {
 	int x = 0;
 	instruction_t op[] = {
@@ -92,21 +89,20 @@ int exec_op(stack_t **stack, char *argument, char *element, unsigned int n)
 		{
 			if (!strcmp(argument, "push"))
 			{
-				if (isdigit(element))
-					data = atoi(element);
-				else
-				{
-					printf("%s", element);
-					return (1);
-				}
+				data = atoi(element);
+				if (data == 0 && element[0] != '0')
+					return (2);
 			}
-			op[x].f(stack, n);
+			op[x].f(stack, (unsigned int)n);
 			break;
 		}
 		x++;
 	}
+
 	if (!op[x].opcode)
-		return (2);
+	{
+		return (1);
+	}
 
 	return (0);
 }
