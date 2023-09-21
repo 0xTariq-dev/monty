@@ -5,7 +5,6 @@
  * @stack: A pointer to the list.
  * @n: The value to add to the list.
  *
- * Return: The Address of the new element
  */
 void push(stack_t **stack, unsigned int n)
 {
@@ -25,7 +24,6 @@ void push(stack_t **stack, unsigned int n)
  * @stack: The stack to print.
  * @n: Count.
  *
- * Return: Nothing.
  */
 void pall(stack_t **stack, unsigned int n)
 {
@@ -45,7 +43,6 @@ void pall(stack_t **stack, unsigned int n)
  * new_element - Add new element to the stack.
  * @element: The data.
  *
- * Return: The new element.
  */
 stack_t *new_element(int element)
 {
@@ -61,4 +58,21 @@ stack_t *new_element(int element)
 	new->prev = NULL;
 
 	return (new);
+}
+
+/**
+ * pint - a function that prints the value at the
+ * top of the stack.
+ * @stack: the stack.
+ * @line_number: the number of line in the
+ * Monty byte code file.
+ */
+void pint(stack_t **stack, unsigned int line_number)
+{
+	if (!*stack)
+	{
+		fprintf(stderr, "L%u: can't pint, stack empty\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	printf("%d\n", (*stack)->n);
 }

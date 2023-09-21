@@ -80,7 +80,7 @@ int exec_op(stack_t **stack, char *argument, char *element, int n)
 {
 	int x = 0;
 	instruction_t op[] = {
-		{"push", push}, {"pall", pall}, {NULL, NULL}
+		{"push", push}, {"pint", pint}, {"pall", pall}, {NULL, NULL}
 	};
 
 	while (op[x].opcode)
