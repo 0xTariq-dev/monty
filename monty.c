@@ -82,7 +82,9 @@ int exec_op(stack_t **stack, char *argument, char *element, int n)
 	instruction_t op[] = {
 		{"push", push}, {"pall", pall}, {"pop", pop},
 		{"add", add}, {"pint", pint}, {"nop", nop},
-		{"swap", swap}, {NULL, NULL}
+		{"swap", swap}, {"sub", sub}, {"div", _div},
+		{"mul", mul}, {"mod", mod}, {"pchar", pchar},
+		{"pstr", pstr}, {"swap", swap}, {NULL, NULL}
 	};
 
 	while (op[x].opcode)
