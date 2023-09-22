@@ -53,7 +53,7 @@ void file_handler(char *argv)
 			element = strtok(NULL, delims);
 			res = exec_op(&stack, arguments, element, count);
 			if (res == 1)
-				inv_inst(global.m_code, global.line, stack, argv, count);
+				inv_inst(global.m_code, global.line, stack, arguments, count);
 			if (res == 2)
 				err_push(global.m_code, global.line, stack, count);
 		}
