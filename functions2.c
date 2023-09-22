@@ -31,7 +31,7 @@ void add(stack_t **stack, unsigned int n)
 
 	if (stack == NULL || (*stack)->next == NULL)
 	{
-		fprintf(stderr, "L%d: can't pop an empty stack\n", n);
+		fprintf(stderr, "L%u: can't add, stack too short\n", n);
 		exit(EXIT_FAILURE);
 	}
 
