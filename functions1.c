@@ -43,6 +43,7 @@ void pall(stack_t **stack, unsigned int n)
  * new_element - Add new element to the stack.
  * @element: The data.
  *
+ * Return: new node
  */
 stack_t *new_element(int element)
 {
