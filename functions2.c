@@ -2,23 +2,44 @@
 
 /**
  * pop - delete the element at the top of stack.
- * @stack: A pointer to the list.
- * @index: The index to delete the node at.
+ * @stack: A pointer to the stack.
+ * @n: The line number.
  *
- * Return: 1 on success or -1 on fail.
+ * Return: FAILURE if the stack is empty.
  */
 void pop(stack_t **stack, unsigned int n)
 {
 	stack_t *last;
-	(void)n;
 
 	if (stack == NULL || *stack == NULL)
 	{
-		fprintf(stderr, "L<line_number>: can't pop an empty stack");
+		fprintf(stderr, "L%d: can't pop an empty stack\n", n);
 		exit(EXIT_FAILURE);
 	}
 
 	last = *stack;
 	*stack = (*stack)->next;
 	free(last);
+}
+
+/**
+ * add - Adds the two ele.
+ * @stack: A pointer to the stack.
+ * @n: The line number.
+ *
+ * Return: FAILURE if the stack contains less than two elements.
+ */
+void add(stack_t **stack, unsigned int n)
+{
+	stack_t *last;
+
+	if (stack == NULL || (*stack)->next == NULL)
+	{
+		fprintf(stderr, "L%d: can't pop an empty stack\n", n);
+		exit(EXIT_FAILURE);
+	}
+
+	last = (*stack)->next;
+	last->n += (*stack)->n;
+	pop(stack, n);
 }
