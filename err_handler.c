@@ -24,9 +24,9 @@ void err_push(FILE *mon, char *line, stack_t *stack, int count)
  * @count: line number.
  * @element: number.
  */
-void inv_inst(FILE *mon, char *line, stack_t *stack, char *count, int element)
+void inv_inst(FILE *mon, char *line, stack_t *stack, char *argument, int count)
 {
-	fprintf(stderr, "L%u: unknown instruction %s\n", element, count);
+	fprintf(stderr, "L%u: unknown instruction %s\n", count, argument);
 	fclose(mon);
 	free(line);
 	free_stack(stack);

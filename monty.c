@@ -102,11 +102,8 @@ int exec_op(stack_t **stack, char *argument, char *element, int n)
 		}
 		x++;
 	}
-
 	if (!op[x].opcode)
-	{
 		return (1);
-	}
 
 	return (0);
 }

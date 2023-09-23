@@ -81,7 +81,7 @@ void nop(stack_t **stack, unsigned int n);
 
 /*Error Handling*/
 void err_push(FILE *mon, char *line, stack_t *stack, int count);
-void inv_inst(FILE *mon, char *line, stack_t *stack, char *count, int element);
+void inv_inst(FILE *mon, char *line, stack_t *stack, char *argument, int count);
 
 /*File Operations*/
 void file_handler(char *argv);

@@ -63,7 +63,7 @@ void sub(stack_t **stack, unsigned int n)
 {
 	stack_t *last;
 
-	if (stack == NULL || (*stack)->next == NULL)
+	if (n < 3)
 	{
 		fprintf(stderr, "L%u: can't sub, stack too short\n", n);
 		exit(EXIT_FAILURE);
