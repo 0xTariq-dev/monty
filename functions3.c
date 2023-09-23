@@ -5,10 +5,10 @@
  * @stack: the stack.
  * @n: the number of the line.
  */
-void nop(stack_t **stack, unsigned int n)
+void nop(stack_t **stack, unsigned int line)
 {
 	(void)stack;
-	(void)n;
+	(void)line;
 }
 
 /**
@@ -16,25 +16,25 @@ void nop(stack_t **stack, unsigned int n)
  * @stack: A pointer to the stack.
  * @n: The line number.
  */
-void _div(stack_t **stack, unsigned int n)
+void _div(stack_t **stack, unsigned int line)
 {
 	stack_t *last;
 
-	if (stack == NULL || (*stack)->next == NULL)
+	if (line < 3)
 	{
-		fprintf(stderr, "L%u: can't div, stack too short\n", n);
+		fprintf(stderr, "L%u: can't div, stack too short\n", line);
 		exit(EXIT_FAILURE);
 	}
 
 	if ((*stack)->n == 0)
 	{
-		fprintf(stderr, "L%u: division by zero\n", n);
+		fprintf(stderr, "L%u: division by zero\n", line);
 		exit(EXIT_FAILURE);
 	}
 
 	last = (*stack)->next;
 	last->n /= (*stack)->n;
-	pop(stack, n);
+	pop(stack, line);
 }
 
 /**
@@ -42,19 +42,19 @@ void _div(stack_t **stack, unsigned int n)
  * @stack: A pointer to the stack.
  * @n: The line number.
  */
-void mul(stack_t **stack, unsigned int n)
+void mul(stack_t **stack, unsigned int line)
 {
 	stack_t *last;
 
-	if (stack == NULL || (*stack)->next == NULL)
+	if (line < 3)
 	{
-		fprintf(stderr, "L%u: can't mul, stack too short\n", n);
+		fprintf(stderr, "L%u: can't mul, stack too short\n", line);
 		exit(EXIT_FAILURE);
 	}
 
 	last = (*stack)->next;
 	last->n *= (*stack)->n;
-	pop(stack, n);
+	pop(stack, line);
 }
 
 /**
@@ -63,25 +63,25 @@ void mul(stack_t **stack, unsigned int n)
  * @stack: A pointer to the stack.
  * @n: The line number.
  */
-void mod(stack_t **stack, unsigned int n)
+void mod(stack_t **stack, unsigned int line)
 {
 	stack_t *last;
 
-	if (stack == NULL || (*stack)->next == NULL)
+	if (line < 3)
 	{
-		fprintf(stderr, "L%u: can't mod, stack too short\n", n);
+		fprintf(stderr, "L%u: can't mod, stack too short\n", line);
 		exit(EXIT_FAILURE);
 	}
 
 	if ((*stack)->n == 0)
 	{
-		fprintf(stderr, "L%u: division by zero\n", n);
+		fprintf(stderr, "L%u: division by zero\n", line);
 		exit(EXIT_FAILURE);
 	}
 
 	last = (*stack)->next;
 	last->n %= (*stack)->n;
-	pop(stack, n);
+	pop(stack, line);
 }
 
 /**
@@ -89,13 +89,13 @@ void mod(stack_t **stack, unsigned int n)
  * @stack: A pointer to the stack.
  * @n: The line number.
  */
-void pchar(stack_t **stack, unsigned int n)
+void pchar(stack_t **stack, unsigned int line)
 {
 	int x;
 
-	if (stack == NULL)
+	if (line < 2)
 	{
-		fprintf(stderr, "L%u: can't pchar, stack empty\n", n);
+		fprintf(stderr, "L%u: can't pchar, stack empty\n", line);
 		exit(EXIT_FAILURE);
 	}
 
@@ -105,7 +105,7 @@ void pchar(stack_t **stack, unsigned int n)
 		printf("%c\n", (char)x);
 	else
 	{
-		fprintf(stderr, "L%u: can't pchar, value out of range\n", n);
+		fprintf(stderr, "L%u: can't pchar, value out of range\n", line);
 		exit(EXIT_FAILURE);
 	}
 }

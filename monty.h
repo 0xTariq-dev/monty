@@ -64,20 +64,20 @@ stack_t *new_element(int element);
 
 /*operations*/
 int exec_op(stack_t **stack, char *argument, char *element, int n);
-void push(stack_t **stack, unsigned int n);
-void pall(stack_t **stack, unsigned int n);
-void pop(stack_t **stack, unsigned int n);
-void sub(stack_t **stack, unsigned int n);
-void _div(stack_t **stack, unsigned int n);
-void mul(stack_t **stack, unsigned int n);
-void mod(stack_t **stack, unsigned int n);
-void pchar(stack_t **stack, unsigned int n);
-void pstr(stack_t **stack, unsigned int n);
-void add(stack_t **stack, unsigned int line_number);
+void push(stack_t **stack, unsigned int line);
+void pall(stack_t **stack, unsigned int line);
+void pop(stack_t **stack, unsigned int line);
+void sub(stack_t **stack, unsigned int line);
+void _div(stack_t **stack, unsigned int line);
+void mul(stack_t **stack, unsigned int line);
+void mod(stack_t **stack, unsigned int line);
+void pchar(stack_t **stack, unsigned int line);
+void pstr(stack_t **stack, unsigned int line);
+void add(stack_t **stack, unsigned int line);
 void free_stack(stack_t *stack);
-void pint(stack_t **stack, unsigned int line_number);
-void swap(stack_t **stack, unsigned int n);
-void nop(stack_t **stack, unsigned int n);
+void pint(stack_t **stack, unsigned int line);
+void swap(stack_t **stack, unsigned int line);
+void nop(stack_t **stack, unsigned int line);
 
 /*Error Handling*/
 void err_push(FILE *mon, char *line, stack_t *stack, int count);

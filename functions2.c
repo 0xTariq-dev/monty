@@ -5,13 +5,13 @@
  * @stack: A pointer to the stack.
  * @n: The line number.
  */
-void pop(stack_t **stack, unsigned int n)
+void pop(stack_t **stack, unsigned int line)
 {
 	stack_t *last;
 
 	if (stack == NULL || *stack == NULL)
 	{
-		fprintf(stderr, "L%u: can't pop an empty stack\n", n);
+		fprintf(stderr, "L%u: can't pop an empty stack\n", line);
 		exit(EXIT_FAILURE);
 	}
 
@@ -25,15 +25,15 @@ void pop(stack_t **stack, unsigned int n)
  * @stack: the stack.
  * @line_number: the number of the line.
  */
-void add(stack_t **stack, unsigned int line_number)
+void add(stack_t **stack, unsigned int line)
 {
 	if (*stack == NULL || (*stack)->next == NULL)
 	{
-		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
+		fprintf(stderr, "L%u: can't add, stack too short\n", line);
 		exit(EXIT_FAILURE);
 	}
 	(*stack)->next->n += (*stack)->n;
-	pop(stack, line_number);
+	pop(stack, line);
 }
 
 /**
@@ -41,13 +41,13 @@ void add(stack_t **stack, unsigned int line_number)
  * @stack: the stack.
  * @n: the number of the line.
  */
-void swap(stack_t **stack, unsigned int n)
+void swap(stack_t **stack, unsigned int line)
 {
 	int temp;
 
 	if (*stack == NULL || (*stack)->next == NULL)
 	{
-		fprintf(stderr, "L%u: can't swap, stack too short\n", n);
+		fprintf(stderr, "L%u: can't swap, stack too short\n", line);
 		exit(EXIT_FAILURE);
 	}
 	temp = (*stack)->n;
@@ -59,19 +59,19 @@ void swap(stack_t **stack, unsigned int n)
  * @stack: A pointer to the stack.
  * @n: The line number.
  */
-void sub(stack_t **stack, unsigned int n)
+void sub(stack_t **stack, unsigned int line)
 {
 	stack_t *last;
 
-	if (n < 3)
+	if (line < 3)
 	{
-		fprintf(stderr, "L%u: can't sub, stack too short\n", n);
+		fprintf(stderr, "L%u: can't sub, stack too short\n", line);
 		exit(EXIT_FAILURE);
 	}
 
 	last = (*stack)->next;
 	last->n -= (*stack)->n;
-	pop(stack, n);
+	pop(stack, line);
 }
 
 /**
@@ -80,24 +80,18 @@ void sub(stack_t **stack, unsigned int n)
  * @stack: A pointer to the stack.
  * @n: The line number.
  */
-void pstr(stack_t **stack, unsigned int n)
+void pstr(stack_t **stack, unsigned int line)
 {
-	int x;
+	stack_t *h = *stack;
+	(void)line;
 
-	if (stack == NULL)
+	while (h)
 	{
-		fprintf(stderr, "L%u: can't pchar, stack empty\n", n);
-		exit(EXIT_FAILURE);
-	}
+		if (h->n > 127 || h->n <= 0)
+			break;
 
-	x = (*stack)->n;
-
-	while (((*stack)->n != 0) && *stack)
-	{
-		x = (*stack)->n;
-		*stack = (*stack)->next;
-		if ((x >= 65 && x <= 90) || (x >= 97 && x <= 122))
-			printf("%c", (char)x);
+		printf("%c", h->n);
+		h = h->next;
 	}
 	printf("\n");
 }

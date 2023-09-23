@@ -6,10 +6,10 @@
  * @n: The value to add to the list.
  *
  */
-void push(stack_t **stack, unsigned int n)
+void push(stack_t **stack, unsigned int line)
 {
 	stack_t *new;
-	(void)n;
+	(void)line;
 
 	new = new_element(data);
 	new->next = *stack;
@@ -25,10 +25,10 @@ void push(stack_t **stack, unsigned int n)
  * @n: Count.
  *
  */
-void pall(stack_t **stack, unsigned int n)
+void pall(stack_t **stack, unsigned int line)
 {
 	stack_t *current = NULL;
-	(void)n;
+	(void)line;
 
 	current = *stack;
 
@@ -68,11 +68,11 @@ stack_t *new_element(int element)
  * @line_number: the number of line in the
  * Monty byte code file.
  */
-void pint(stack_t **stack, unsigned int line_number)
+void pint(stack_t **stack, unsigned int line)
 {
 	if (!*stack)
 	{
-		fprintf(stderr, "L%u: can't pint, stack empty\n", line_number);
+		fprintf(stderr, "L%u: can't pint, stack empty\n", line);
 		exit(EXIT_FAILURE);
 	}
 	printf("%d\n", (*stack)->n);
